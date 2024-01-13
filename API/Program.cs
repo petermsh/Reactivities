@@ -5,10 +5,10 @@ using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var app = builder.Build();
-
 builder.Services.AddControllers();
 builder.Services.AddApplicationServices(builder.Configuration);
+
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
