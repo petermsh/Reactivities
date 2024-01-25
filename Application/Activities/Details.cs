@@ -38,11 +38,12 @@ public class Details
                     Id = x.Id,
                     Title = x.Title,
                     Venue = x.Venue,
-                    Attendees = x.Attendees.Select(a => new Profile
+                    Attendees = x.Attendees.Select(a => new AttendeeDto
                     {
                         Username = a.AppUser.UserName,
-                        DisplayNAme = a.AppUser.DisplayName,
+                        DisplayName = a.AppUser.DisplayName,
                         Bio = a.AppUser.Bio,
+                        Image = a.AppUser.Photos.FirstOrDefault(p=>p.IsMain).Url,
                     }).ToList()
                 })
                 .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
