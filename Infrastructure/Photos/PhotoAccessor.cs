@@ -41,7 +41,7 @@ public class PhotoAccessor : IPhotoAccessor
 
             return new PhotoUploadResult()
             {
-                PublicId = uploadParams.PublicId,
+                PublicId = uploadResult.PublicId,
                 Url = uploadResult.SecureUrl.ToString(),
             };
         }

@@ -43,4 +43,9 @@ export default class UserStore {
         runInAction(() => this.user = user);
     }
     
+    setImage = (image: string) => {
+        
+        if(this.user) this.user.image = image;
+    } 
+    
 }
