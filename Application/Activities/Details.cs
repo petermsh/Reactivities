@@ -1,4 +1,5 @@
 ﻿using Application.Core;
+using Application.Interfaces;
 using Application.Profiles;
 using Domain;
 using MediatR;
@@ -17,10 +18,12 @@ public class Details
     public class Handler : IRequestHandler<Query, Result<ActivityDto>>
     {
         private readonly DataContext _context;
+        private readonly IUserAccessor _userAccessor;
 
-        public Handler(DataContext context)
+        public Handler(DataContext context, IUserAccessor userAccessor)
         {
             _context = context;
+            _userAccessor = userAccessor;
         }
         
         public async Task<Result<ActivityDto>> Handle(Query request, CancellationToken cancellationToken)
@@ -44,6 +47,9 @@ public class Details
                         DisplayName = a.AppUser.DisplayName,
                         Bio = a.AppUser.Bio,
                         Image = a.AppUser.Photos.FirstOrDefault(p=>p.IsMain).Url,
+                        Following = a.AppUser.Followers.Any(u=>u.Observer.UserName == _userAccessor.GetUsername()),
+                        FollowersCount = a.AppUser.Followers.Count,
+                        FollowingCount = a.AppUser.Followings.Count
                     }).ToList()
                 })
                 .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
